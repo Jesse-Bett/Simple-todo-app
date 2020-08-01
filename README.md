@@ -7,6 +7,6 @@ Learned this form "Learnwebcode with brad"
 
 Preview available at   https://remote-to-do-app.herokuapp.com/
 
-username:      todoapp
-   password:      javascript
+* username: todoapp
+* password: javascript
 
