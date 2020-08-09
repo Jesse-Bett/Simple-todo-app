@@ -11,3 +11,5 @@ Preview available at   https://remote-to-do-app.herokuapp.com/
 * password: javascript
 
 * It is responssive as seen on phone below.
+
+![TO-DO-App phone](https://user-images.githubusercontent.com/40341693/89740590-c4335400-da92-11ea-9bb8-38d0060dc678.png)
