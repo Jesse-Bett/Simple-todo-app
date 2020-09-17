@@ -10,7 +10,7 @@ if(port == null || port ==""){
 }
 app.use(express.static('public'))
 
-let connectionString = 'mongodb+srv://todoAppUser:Kiprotich254@cluster0-eawpi.mongodb.net/TodoApp?retryWrites=true&w=majority'
+let connectionString = '' //your connection string to the database should go inside the quotes.
 mongodb.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
   db = client.db()
   app.listen(port)
