@@ -1,40 +1,43 @@
-
-let express = require('express')
-let mongodb = require('mongodb')
-let sanitizeHTML = require('sanitize-html')
-let app = express()
-let db
-let port = process.env.PORT
-if(port == null || port ==""){
-  port =3000
+const express = require("express");
+const mongodb = require("mongodb");
+const sanitizeHTML = require("sanitize-html");
+let app = express();
+let db;
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
 }
-app.use(express.static('public'))
+app.use(express.static("public"));
 
-let connectionString = '' //your connection string to the database should go inside the quotes.
-mongodb.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
-  db = client.db()
-  app.listen(port)
-})
-
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
-
-
-function passwordProtected(req,res,next) {
-  res.set('WWW-Authenticate','Basic Realm ="Simple Todo App"')
- console.log(req.headers.authorization)
-  if (req.headers.authorization =="Basic dG9kb2FwcDpqYXZhc2NyaXB0"){
-next() 
+let connectionString = ""; //your connection string to the database should go inside the quotes.
+mongodb.connect(
+  connectionString,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  function (err, client) {
+    db = client.db();
+    app.listen(port);
   }
-  else{
-res.status(401).send("Authentication required!!!")
+);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+function passwordProtected(req, res, next) {
+  res.set("WWW-Authenticate", 'Basic Realm ="Simple Todo App"');
+  console.log(req.headers.authorization);
+  if (req.headers.authorization == "Basic dG9kb2FwcDpqYXZhc2NyaXB0") {
+    next();
+  } else {
+    res.status(401).send("Authentication required!!!");
   }
 }
-app.use(passwordProtected)
+app.use(passwordProtected);
 
-app.get('/', function(req, res) {
-  db.collection('items').find().toArray(function(err, items) {
-    res.send(`<!DOCTYPE html>
+app.get("/", function (req, res) {
+  db.collection("items")
+    .find()
+    .toArray(function (err, items) {
+      res.send(`<!DOCTYPE html>
   <html>
   <head>
   <meta charset="UTF-8">
@@ -64,33 +67,43 @@ app.get('/', function(req, res) {
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="/browser.js"></script>
   </body>
-  </html>`)
-  })
-})
-
+  </html>`);
+    });
+});
 
 //code for creating item
-app.post('/create-item', function(req, res) {
- let safeText = sanitizeHTML(req.body.text,{allowedTags:[],allowedAttributes:{}})
-  db.collection('items').insertOne({text: safeText}, function(err,info) {
-    res.json(info.ops[0])
-  })
-})
-
+app.post("/create-item", function (req, res) {
+  let safeText = sanitizeHTML(req.body.text, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
+  db.collection("items").insertOne({ text: safeText }, function (err, info) {
+    res.json(info.ops[0]);
+  });
+});
 
 //code for updating item
-app.post('/update-item', function(req, res) {
-  let safeText = sanitizeHTML(req.body.text,{allowedTags:[],allowedAttributes:{}})
-  db.collection('items').findOneAndUpdate({_id:new mongodb.ObjectId(req.body.id)},{$set:{text:safeText}},function(){
-      res.send("sucess")
-  })
-}) 
-
+app.post("/update-item", function (req, res) {
+  let safeText = sanitizeHTML(req.body.text, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
+  db.collection("items").findOneAndUpdate(
+    { _id: new mongodb.ObjectId(req.body.id) },
+    { $set: { text: safeText } },
+    function () {
+      res.send("sucess");
+    }
+  );
+});
 
 //code for deleting item
-app.post("/delete-item",function(req,res){
-db.collection('items').deleteOne({_id:new mongodb.ObjectId(req.body.id)},{$set:{text:req.body.text}},function(){
-  res.send("sucess")
-})
-
-}) 
+app.post("/delete-item", function (req, res) {
+  db.collection("items").deleteOne(
+    { _id: new mongodb.ObjectId(req.body.id) },
+    { $set: { text: req.body.text } },
+    function () {
+      res.send("sucess");
+    }
+  );
+});
