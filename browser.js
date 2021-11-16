@@ -50,7 +50,7 @@ document.addEventListener("click", function (e) {
     }
   }
 
-  // Update Feature
+// Adding update Feature
   if (e.target.classList.contains("edit-me")) {
     let userInput = prompt(
       "Enter your desired new text",
@@ -72,4 +72,6 @@ document.addEventListener("click", function (e) {
         });
     }
   }
-});
+}  );
+
+
