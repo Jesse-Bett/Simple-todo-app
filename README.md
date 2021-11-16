@@ -6,7 +6,7 @@ This single page application is hosted by heroku.
 Entries are sanitized using the node dependancy  `sanitize-html` hence links cannot be entries. It is responsive as seen on phone below.
 This project is based on a fullstack javascript course from  *Learnwebcode with brad*.
 
-Preview available at      ![simple todo app] (https://remote-to-do-app.herokuapp.com/)
+Preview available at      ! [simple todo app](https://remote-to-do-app.herokuapp.com/)
 
 
 - `username: todoapp`
